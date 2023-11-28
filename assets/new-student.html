@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>New Student Form</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add a new student</h1>
+        <form>
+            <label class="form-label" for="name">Name:</label>
+            <input class="form-control" type="text" id="name" name="name"><br><br>
+            <label class="form-label" for="student-id">Student ID:</label>
+            <input class="form-control" type="text" id="student-id" name="student-id"><br><br>
+            <button class="btn btn-primary" name="student-submit" type="submit">Add Student</button>
+        </form>
+        <h5><span id="response-span"></span></h5>
+    </div>
+    <script type="text/javascript">
+        async function new_student(event) {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const student_id = document.getElementById("student-id").value;
+
+            const requestStudent = {
+                name: name,
+                student_id: student_id
+            }
+
+            window.alert("Place your finger on the sensor.\n"
+                + " Remove your finger when the light turns off.\n"
+                + " Place your finger again when the light is back on."
+            );
+
+            fetch("http://127.0.0.1:3000/add-student", {
+                method: "POST",
+                body: JSON.stringify(requestStudent),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+                .then((response) => {
+                    if (response.status == 200) {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="success">${responseMessage}</h5>`;
+                            setTimeout((_) => { window.location.replace("/") }, 2000);
+                        })
+                    } else {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="danger">${responseMessage}</h5>`;
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
+        document.querySelector("button[name='student-submit']").addEventListener('click', new_student);
+    </script>
+</body>
+
+</html>

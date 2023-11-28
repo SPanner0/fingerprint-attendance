@@ -1,0 +1,30 @@
+[package]
+name = "attendance-system"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.6.20"
+axum-macros = "0.3.8"
+dotenv = "0.15.0"
+serde = "1.0.190"
+serialport = "4.2.2"
+snafu = "0.7.5"
+sqlx = { version = "0.7.2", features = ["sqlite", "runtime-tokio-rustls"] }
+tokio = { version = "1.33.0", features = ["rt", "macros"] }
+tower-http = { version = "0.4.4", features = ["fs"] }
+
+[build-dependencies]
+tokio = { version = "1.21.2", default-features = false, features = [
+    "rt",
+    "macros",
+    "signal",
+] }
+sqlx = { version = "0.7.2", features = [
+    "runtime-tokio-rustls",
+    "sqlite",
+    "migrate",
+] }
+dotenv = "0.15.0"

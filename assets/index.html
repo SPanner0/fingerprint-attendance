@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Attendance System</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Students</h1>
+        <button class="btn btn-success" name="take-attendance" type="submit">Take Attendance</button>
+        <button class="btn btn-warning" name="reset-attendance" type="submit">Reset Attendance</button>
+        <button class="btn btn-danger" name="clear-fingerprints" type="submit">Clear Fingerprints</button>
+        <div class="container-sm" style="float: right">
+            <button class="btn btn-primary" name="add-student-redirect" type="submit">Add a Student</button>
+        </div>
+        <table class="table">
+            <thead>
+                <tr class="table-primary">
+                    <th scope="col">Name</th>
+                    <th scope="col">Student ID</th>
+                    <th scope="col">Attendance</th>
+                </tr>
+            </thead>
+            <tbody id="students-list">
+                <!-- List of students from GET request goes in here -->
+            </tbody>
+        </table>
+        <h5><span id="response-span"></span></h5>
+    </div>
+    <script type="text/javascript">
+        async function get_students() {
+            fetch("http://127.0.0.1:3000/get-students", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                }
+            })
+                .then((response) => response.json())
+                .then((students) => {
+                    for (let i = 0; i < students.length; i++) {
+                        if (students[i].attendance) {
+                            document.getElementById("students-list").innerHTML +=
+                                `
+                            <tr class="success">
+                                <td>${students[i].name}</td>
+                                <td>${students[i].student_id}</td>
+                                <td>✅</td>
+                            </tr>
+                        `
+                        } else {
+                            document.getElementById("students-list").innerHTML +=
+                                `
+                            <tr class="danger">
+                                <td>${students[i].name}</td>
+                                <td>${students[i].student_id}</td>
+                                <td>❌</td>
+                            </tr>
+                        `
+                        }
+                    }
+                });
+        }
+
+        async function take_attendance(event) {
+            event.preventDefault();
+
+            window.alert("Place your finger on the fingerprint scanner.");
+
+            fetch("http://127.0.0.1:3000/take-attendance", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                }
+            })
+                .then((response) => {
+                    if (response.status == 200) {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="success">${responseMessage}</h5>`;
+                            setTimeout((_) => { window.location.reload() }, 2000);
+                        })
+                    } else {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="danger">${responseMessage}</h5>`;
+                        })
+                    }
+                });
+        }
+
+        async function clear_fingerprints(event) {
+            event.preventDefault();
+            fetch("http://127.0.0.1:3000/clear-fingerprints", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                }
+            })
+                .then((response) => {
+                    if (response.status == 200) {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="success">${responseMessage}</h5>`;
+                            setTimeout((_) => { window.location.reload() }, 2000);
+                        })
+                    } else {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="danger">${responseMessage}</h5>`;
+                        })
+                    }
+                });
+        }
+
+        async function reset_attendance(event) {
+            event.preventDefault();
+            fetch("http://127.0.0.1:3000/reset-attendance", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                }
+            })
+                .then((response) => {
+                    if (response.status == 200) {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="success">${responseMessage}</h5>`;
+                            setTimeout((_) => { window.location.reload() }, 2000);
+                        })
+                    } else {
+                        response.text().then((responseMessage) => {
+                            console.log(responseMessage)
+                            document.getElementById("response-span").innerHTML = `<h5 class="danger">${responseMessage}</h5>`;
+                        })
+                    }
+                });
+        }
+
+        async function add_student_redirect(event) {
+            event.preventDefault();
+            window.location.replace("/new-student.html");
+        }
+
+        get_students();
+        document.querySelector("button[name='take-attendance']").addEventListener('click', take_attendance);
+        document.querySelector("button[name='clear-fingerprints']").addEventListener('click', clear_fingerprints);
+        document.querySelector("button[name='reset-attendance']").addEventListener('click', reset_attendance);
+        document.querySelector("button[name='add-student-redirect']").addEventListener('click', add_student_redirect);
+    </script>
+</body>
+
+</html>
