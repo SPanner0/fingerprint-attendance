@@ -1,5 +1,5 @@
 /***********************************************************************************************************************
-ATTENTION: This file is meant to be flashed to the Arduino Uno (other boards might work but there is no guarantee).
+ATTENTION: This file is meant to be flashed to the Arduino Uno (other boards might work but there are no guarantees).
 This project is meant to be used with the fingerprint sensor module from Adafruit (https://www.adafruit.com/product/751).
 This file will NOT be compiled by Cargo; rather, it is meant to be compiled by the Arduino IDE or similar Arduino uploaders.
 ***********************************************************************************************************************/
@@ -13,14 +13,16 @@ Adafruit_Fingerprint fingerprint_sensor = Adafruit_Fingerprint(&fingerprint_seri
 const uint32_t PORT_BAUD_RATE = 9600;
 const uint32_t FINGER_BAUD_RATE = 57600;
 
-enum Command {
-  Ready = 0,
-  Enroll = 1,
-  Match = 2,
-  Clear = 3,
+enum Command
+{
+    Ready = 0,
+    Enroll = 1,
+    Match = 2,
+    Clear = 3,
 };
 
-enum CommandResponse {
+enum CommandResponse
+{
     UnknownError = 1,
     PacketError = 2,
     ImageFail = 3,
@@ -34,7 +36,8 @@ enum CommandResponse {
     UnknownCommand = 11,
 };
 
-enum CommandStatus {
+enum CommandStatus
+{
     Success = 0b11111111,
     Failure = 0b11111110,
 };
@@ -42,13 +45,13 @@ enum CommandStatus {
 // Function prototypes
 void setup();
 void loop();
-void run_command(uint8_t[2], uint8_t(&)[2]);
+void run_command(uint8_t[2], uint8_t (&)[2]);
 void check_ready(uint8_t (&)[2]);
-void enroll_fingerprint(uint8_t, uint8_t(&)[2]);
-void match_fingerprint(uint8_t(&)[2]);
-void clear_fingerprints(uint8_t(&)[2]);
-bool process_get_image(uint8_t(&)[2]);
-bool process_template_convert(uint8_t(&)[2], uint8_t);
+void enroll_fingerprint(uint8_t, uint8_t (&)[2]);
+void match_fingerprint(uint8_t (&)[2]);
+void clear_fingerprints(uint8_t (&)[2]);
+bool process_get_image(uint8_t (&)[2]);
+bool process_template_convert(uint8_t (&)[2], uint8_t);
 void serial_flush();
 
 bool ready = false; // Whether the fingerprint sensor is ready to be used
@@ -56,7 +59,7 @@ void setup()
 {
     Serial.begin(PORT_BAUD_RATE);
     delay(100);
-    
+
     fingerprint_sensor.begin(FINGER_BAUD_RATE);
 
     ready = fingerprint_sensor.verifyPassword();
@@ -74,7 +77,7 @@ void loop()
     if (Serial.available() > 0)
     {
         Serial.readBytes(command, 2);
-        uint8_t command_response[2];      // Used to send a response back to the computer
+        uint8_t command_response[2];                  // Used to send a response back to the computer
         command_response[0] = CommandStatus::Failure; // Set the response code to failure by default
 
         run_command(command, command_response);
@@ -114,12 +117,16 @@ void run_command(uint8_t command[2], uint8_t (&command_response)[2])
 
 /// @brief Check if the fingerprint sensor is ready to be used
 /// @param command_response An array to store the command response and write back to the computer
-void check_ready(uint8_t (&command_response)[2]) {
-    if (ready) {
+void check_ready(uint8_t (&command_response)[2])
+{
+    if (ready)
+    {
         command_response[0] = CommandStatus::Success;
-  } else {
+    }
+    else
+    {
         command_response[0] = CommandStatus::Failure;
-  }
+    }
 }
 
 /// @brief Enroll a fingerprint with a specified ID
@@ -232,7 +239,7 @@ void match_fingerprint(uint8_t (&command_response)[2])
     case FINGERPRINT_OK:
         fingerprint_sensor.LEDcontrol(FINGERPRINT_LED_ON, 0, FINGERPRINT_LED_BLUE);
         command_response[0] = CommandStatus::Success;
-        command_response[1] = (uint8_t) fingerprint_sensor.fingerID;
+        command_response[1] = (uint8_t)fingerprint_sensor.fingerID;
         break;
     case FINGERPRINT_PACKETRECIEVEERR:
         fingerprint_sensor.LEDcontrol(FINGERPRINT_LED_ON, 0, FINGERPRINT_LED_RED);
@@ -347,8 +354,10 @@ bool process_template_convert(uint8_t (&command_response)[2], uint8_t slot)
 }
 
 /// @brief Flush the serial read buffer
-void serial_flush() {
-  while(Serial.available() > 0) {
-    char t = Serial.read();
-  }
+void serial_flush()
+{
+    while (Serial.available() > 0)
+    {
+        char t = Serial.read();
+    }
 }
