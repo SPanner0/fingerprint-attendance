@@ -41,7 +41,7 @@ impl From<u8> for Command {
 pub type FingerprintPort = Arc<Mutex<Box<dyn serialport::SerialPort>>>;
 
 /*
-Trait required to impl methods onto a type alias.
+Trait required to impl methods onto a type alias of a foreign type.
 
 Also, I just learned that there's a better way to do this with the added benefit of being able to do dependecy injection,
 but that's too much effort to change now and not needed for this project, so just learn from my mistakes.
