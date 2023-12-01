@@ -2,7 +2,7 @@
 
 Take your students' attendance using a real-life fingerprint sensor.
 
-Remove the hassle of manually taking your class's attendance by using a fingerprint sensor.
+Remove the hassle of manually taking your class's attendance by using a fingerprint sensor!
 Note: This project is meant to be used with an [Arduino Uno](https://store-usa.arduino.cc/products/arduino-uno-rev3?selectedStore=us) and the [fingerprint sensor by Adafruit](https://www.adafruit.com/product/751)
 
 ## Getting Started
@@ -25,5 +25,5 @@ Enter ``127.0.0.1:3000`` into your browser's URL bar to access the attendance sy
 Enjoy!
 
 ## Note: Support for other boards
-As stated, this project was designed to be used with the Arduino Uno board. Other boards might work no guarantees are made; use at your own risk.
+As stated, this project was designed to be used with the Arduino Uno board. Other boards might work, although no guarantees are made that they will; please use them at your own risk.
 Other fingerprint sensors will NOT work, you must use the one provided by Adafruit.
