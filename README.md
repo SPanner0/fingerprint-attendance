@@ -7,7 +7,7 @@ Note: This project is meant to be used with an [Arduino Uno](https://store-usa.a
 ## Getting Started
 ### 1. Set up the board and the fingerprint sensor
 Hook up the fingerprint sensor to pins 2 and 3 on the Arduino board like below:
-![arduino-fingerprint-setup](https://imgur.com/a/9pdoCgj)
+![arduino-fingerprint-setup](https://i.imgur.com/SjKXjyb.png)
 
 ### 2. Upload the fingerprint.ino file to the board
 Connect the board to your computer using the USB cable (or serial, if you're old).
