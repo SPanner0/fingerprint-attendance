@@ -1,3 +1,5 @@
 /target
 .vscode
-attendance.db
+*.db
+*.db-shm
+*.db-wal
