@@ -1,5 +1,6 @@
-# fingerprint-attendance
-Takes your class's attendance using a real-life fingerprint sensor.
+# Fingerprint Attendance
+
+Take your students' attendance using a real-life fingerprint sensor.
 
 Remove the hassle of manually taking your class's attendance by using a fingerprint sensor.
 Note: This project is meant to be used with an [Arduino Uno](https://store-usa.arduino.cc/products/arduino-uno-rev3?selectedStore=us) and the [fingerprint sensor by Adafruit](https://www.adafruit.com/product/751)
