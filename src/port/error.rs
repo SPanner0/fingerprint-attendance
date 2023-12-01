@@ -67,6 +67,8 @@ pub enum CommandError {
     FingerprintNotFound,
     #[snafu(display("An unknown command was received by the device."))]
     UnknownCommand,
+    #[snafu(display("The password to the fingerprint sensor is invalid."))]
+    InvalidPassword,
 }
 
 impl From<u8> for CommandError {
@@ -83,6 +85,7 @@ impl From<u8> for CommandError {
             9 => CommandError::FlashError,
             10 => CommandError::FingerprintNotFound,
             11 => CommandError::UnknownCommand,
+            12 => CommandError::InvalidPassword,
             _ => CommandError::UnknownError,
         }
     }
