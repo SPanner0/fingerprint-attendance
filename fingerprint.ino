@@ -34,6 +34,7 @@ enum CommandResponse
     FlashError = 9,
     FingerprintNotFound = 10,
     UnknownCommand = 11,
+    InvalidPassword = 12
 };
 
 enum CommandStatus
@@ -126,6 +127,7 @@ void check_ready(uint8_t (&command_response)[2])
     else
     {
         command_response[0] = CommandStatus::Failure;
+        command_response[1] = CommandResponse::InvalidPassword;
     }
 }
 
